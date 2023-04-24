@@ -1,7 +1,7 @@
 from pygame import *
 window = display.set_mode((1200,700))
-display.set_caption('OHHHHHHHHH MY GOOOOOD')
-fon = transform.scale(image.load('1.jpg'),(1200,700))
+display.set_caption('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO')
+fon = transform.scale(image.load('1.jpg'),(1200,670))
 clock = time.Clock()
 game = True
 class GameSprite(sprite.Sprite):
@@ -29,6 +29,9 @@ class Player(GameSprite):
             self.rect.y += self.speed
 platforma1 = Player('3.png',20,300,50,120,10)
 platforma2 = Player('3.1.png',1130,300,50,120,10 )
+ball = GameSprite('2.png',550,330,70,70,5)
+s_x = 5
+s_y = 5
 while game:
     clock.tick(60)
     window.blit(fon,(0,0))
@@ -36,6 +39,17 @@ while game:
     platforma1.reset()
     platforma2.move()
     platforma2.reset()
+    ball.rect.x += s_x
+    ball.rect.y += s_y
+    if ball.rect.y >= 600:
+        s_y *= -1
+    if ball.rect.y <= 0:
+        s_y *= -1
+    if sprite.collide_rect(ball,platforma1):
+        s_x *= -1
+    if sprite.collide_rect(ball,platforma2):
+        s_x *= -1
+    ball.reset()
     for e in event.get():
         if e.type == QUIT:
             game = False
