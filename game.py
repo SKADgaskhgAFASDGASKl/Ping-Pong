@@ -29,9 +29,15 @@ class Player(GameSprite):
             self.rect.y += self.speed
 platforma1 = Player('3.png',20,300,50,120,10)
 platforma2 = Player('3.1.png',1130,300,50,120,10 )
-ball = GameSprite('2.png',550,330,70,70,5)
-s_x = 5
-s_y = 5
+ball = GameSprite('4.png',550,330,70,70,100)
+font.init()
+font1 = font.Font(None,70)
+text1 = font1.render('Победа левого игрока!!!',True,(200,30,130))
+text2 = font1.render('Победа правого игрока!!!',True,(190,210,100))
+s_x = 15
+s_y = 15
+balls1 = 0
+balls2 = 0
 while game:
     clock.tick(60)
     window.blit(fon,(0,0))
@@ -39,8 +45,9 @@ while game:
     platforma1.reset()
     platforma2.move()
     platforma2.reset()
-    ball.rect.x += s_x
-    ball.rect.y += s_y
+    if balls1 <3 and balls2 <3:
+        ball.rect.x += s_x
+        ball.rect.y += s_y
     if ball.rect.y >= 600:
         s_y *= -1
     if ball.rect.y <= 0:
@@ -49,7 +56,20 @@ while game:
         s_x *= -1
     if sprite.collide_rect(ball,platforma2):
         s_x *= -1
-    ball.reset()
+    if ball.rect.x <= 0:
+        ball.rect.x = 500
+        balls2 += 1
+    if ball.rect.x >= 1200:
+        ball.rect.x = 500
+        balls1 += 1
+    if balls1 >= 3:
+        window.blit(text1,(300,365))
+        #game = False
+    if balls2 >= 3:
+        window.blit(text2,(300,365))
+        #game = False
+    if balls1 <3 and balls2 <3:
+        ball.reset()
     for e in event.get():
         if e.type == QUIT:
             game = False
